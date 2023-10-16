@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -49,8 +50,23 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class);
     }
 
+    public function feedbacks(): HasMany
+    {
+        return $this->hasMany(Feedback::class);
+    }
+
     public function isTeacher(): bool
     {
         return $this->roles->contains('name', 'Teacher');
+    }
+
+    public function isStudent(): bool
+    {
+        return $this->roles->contains('name', 'Student');
+    }
+
+    public function isMonitor(): bool
+    {
+        return $this->roles->contains('name', 'Monitor');
     }
 }
